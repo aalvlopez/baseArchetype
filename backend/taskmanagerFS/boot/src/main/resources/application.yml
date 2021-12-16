@@ -25,3 +25,7 @@ spring:
 server:
   servlet:
     context-path: /taskmanagerFS
+
+springdoc:
+  swagger-ui:
+    enabled: true
