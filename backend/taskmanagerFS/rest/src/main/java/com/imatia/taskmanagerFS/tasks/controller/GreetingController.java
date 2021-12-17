@@ -1,16 +1,20 @@
 package com.imatia.taskmanagerFS.tasks.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.imatia.service.GreetingApi;
+
+
 @RestController
-public class GreetingController {
+public class GreetingController implements GreetingApi {
 
     private static final String template = "Hello, %s!";
 
-    @GetMapping("/api/greeting")
-    public String greeting(@RequestParam(name = "name", required = false, defaultValue = "Stranger") String name) {
-        return String.format(template, name);
+    @Override
+    public ResponseEntity<String> greeting(String name) {
+        return new ResponseEntity<>(String.format(template, name), HttpStatus.OK);
+
     }
 }
