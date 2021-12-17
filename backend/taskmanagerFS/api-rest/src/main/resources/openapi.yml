@@ -29,3 +29,12 @@ paths:
             application/json:
               schema:
                 type: string
+      security:
+        - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+security:
+  - basicAuth: []

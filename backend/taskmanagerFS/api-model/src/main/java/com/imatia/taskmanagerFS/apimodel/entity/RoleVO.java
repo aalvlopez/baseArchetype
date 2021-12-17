@@ -6,6 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -20,14 +21,17 @@ import lombok.ToString;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+@Builder
+public class RoleVO {
+
+    public static final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static final String ROLE_USER = "ROLE_USER";
+    public static final String ADMIN = "ADMIN";
+    public static final String USER = "USER";
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
 
-    private RoleEnum name;
-
-    enum RoleEnum{
-        USER, ADMIN
-    }
+    private String name;
 }
