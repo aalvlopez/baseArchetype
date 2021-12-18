@@ -1,4 +1,4 @@
-package com.imatia.taskmanagerFS.apimodel.entity;
+package com.imatia.taskmanagerFS.apimodel.entity.user;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

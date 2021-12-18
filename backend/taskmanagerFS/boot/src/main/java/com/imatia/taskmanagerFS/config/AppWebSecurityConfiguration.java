@@ -44,8 +44,8 @@ public class AppWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
             .antMatchers("/").permitAll()
             .antMatchers("/h2/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/**").authenticated()
-            .antMatchers(HttpMethod.POST, "/api/**").authenticated();
+            .antMatchers(HttpMethod.GET, "/api/**").permitAll() //.authenticated()
+            .antMatchers(HttpMethod.POST, "/api/**").permitAll(); //.authenticated();
 
         http.cors().disable();
         http.httpBasic();

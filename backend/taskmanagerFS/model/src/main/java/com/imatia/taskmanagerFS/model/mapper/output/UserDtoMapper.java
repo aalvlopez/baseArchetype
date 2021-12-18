@@ -1,8 +1,8 @@
-package com.imatia.taskmanagerFS.model.mapper;
+package com.imatia.taskmanagerFS.model.mapper.output;
 
 import com.imatia.dto.UserDto;
-import com.imatia.taskmanagerFS.apimodel.entity.RoleVO;
-import com.imatia.taskmanagerFS.apimodel.entity.UserVO;
+import com.imatia.taskmanagerFS.apimodel.entity.user.RoleVO;
+import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
