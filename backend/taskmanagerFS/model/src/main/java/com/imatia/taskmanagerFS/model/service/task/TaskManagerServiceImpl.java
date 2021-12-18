@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.imatia.dto.TaskDto;
+import com.imatia.taskmanagerFS.apimodel.entity.task.TaskStatusEnum;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
 import com.imatia.taskmanagerFS.apimodel.service.task.TaskManagerService;
 import com.imatia.taskmanagerFS.model.mapper.input.TaskVoMapper;
@@ -79,6 +80,17 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size).withSort(Sort.by("creationDateTime").descending()));
 
         return this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList()));
+    }
+
+    @Override
+    public void completeTask(Integer taskId) {
+        Assert.notNull(taskId, "The id must not be null");
+        final Optional<TaskVO> taskOpt = this.taskRepository.findById(taskId);
+        Assert.isTrue(taskOpt.isPresent(), "The task does not exist");
+
+        final TaskVO taskVO = taskOpt.get();
+        taskVO.setStatus(TaskStatusEnum.COMPLETE);
+        this.taskRepository.save(taskVO);
     }
 
 }

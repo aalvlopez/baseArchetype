@@ -16,4 +16,6 @@ public interface TaskManagerService {
     TaskDto getTask(Integer taskId);
 
     List<TaskDto> getTasks(Integer page, Integer size);
+
+    void completeTask(Integer taskId);
 }
