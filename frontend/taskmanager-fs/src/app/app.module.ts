@@ -8,11 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { ApiModule } from './core/api/v1/api.module';
 
 import { HttpClientModule } from '@angular/common/http';
+import { TaskListComponent } from './task-list/task-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    TaskListComponent
   ],
   imports: [
 		ApiModule,

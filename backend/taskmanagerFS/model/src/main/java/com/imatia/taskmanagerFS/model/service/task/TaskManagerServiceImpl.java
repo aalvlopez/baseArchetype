@@ -63,7 +63,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         Assert.notNull(page, "The limit must not be null");
         Assert.notNull(size, "The offset must not be null");
 
-        final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size).withSort(Sort.by("creationDateTime").descending()));
+        final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(
+            Sort.Order.desc("creationDateTime"),
+            Sort.Order.desc("id"))));
         return this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList()));
     }
 

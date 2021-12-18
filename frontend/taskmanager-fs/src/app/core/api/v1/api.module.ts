@@ -3,6 +3,7 @@ import { Configuration } from './configuration';
 import { HttpClient } from '@angular/common/http';
 
 import { GreetingService } from './api/greeting.service';
+import { TaskService } from './api/task.service';
 import { UserService } from './api/user.service';
 
 @NgModule({
