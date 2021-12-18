@@ -72,6 +72,8 @@ paths:
           description: callback successfully entity creation
         '200':
           description: callback successfully processed
+        '404':
+          description: resource not found
         '400':
           description: callback bad request
     get:
