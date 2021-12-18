@@ -10,4 +10,6 @@ public interface TaskManagerService {
     TaskDto createTask(TaskDto task);
 
     void deleteTask(Integer taskId);
+
+    TaskDto getTask(Integer taskId);
 }

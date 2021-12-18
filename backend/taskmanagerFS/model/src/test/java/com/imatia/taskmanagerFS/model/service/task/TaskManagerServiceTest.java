@@ -15,7 +15,6 @@ import com.imatia.taskmanagerFS.model.mapper.input.TaskVoMapper;
 import com.imatia.taskmanagerFS.model.mapper.output.TaskDtoMapper;
 import com.imatia.taskmanagerFS.model.repository.task.TaskRepository;
 import com.imatia.taskmanagerFS.model.repository.user.UserRepository;
-import com.imatia.taskmanagerFS.model.service.task.TaskManagerServiceImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -47,7 +46,7 @@ class TaskManagerServiceTest {
     TaskManagerServiceImpl taskManagerService;
 
     @Test
-    void createTask(){
+    void createTask() {
         final String description = "description";
         final String title = "title";
         final String owner = "owner";
@@ -73,7 +72,7 @@ class TaskManagerServiceTest {
     }
 
     @Test
-    void createTaskUserNotFound(){
+    void createTaskUserNotFound() {
         final String owner = "owner";
 
         final TaskDto task = new TaskDto();
@@ -81,11 +80,11 @@ class TaskManagerServiceTest {
 
         Mockito.when(userRepository.findByUsername(owner)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, ()->this.taskManagerService.createTask(task));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.createTask(task));
     }
 
     @Test
-    void deleteTask(){
+    void deleteTask() {
         final int taskId = 1;
         final TaskVO task = TaskVO.builder().id(taskId).build();
         Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(task));
@@ -96,10 +95,55 @@ class TaskManagerServiceTest {
     }
 
     @Test
-    void deleteTaskTaskNotFoud(){
+    void deleteTaskNullTaskId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.deleteTask(null));
+    }
+
+    @Test
+    void deleteTaskTaskNotFound() {
         final int taskId = 1;
         Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, ()->this.taskManagerService.deleteTask(taskId));
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.deleteTask(taskId));
+    }
+
+    @Test
+    void getTask(){
+
+        final int taskId = 1;
+        final String description = "description";
+        final String title = "title";
+        final String owner = "owner";
+
+        final UserVO ownerUser = UserVO.builder().username(owner).build();
+
+        final TaskVO task = new TaskVO();
+        task.setId(taskId);
+        task.setTitle(title);
+        task.setDescription(description);
+        task.setOwner(ownerUser);
+
+        final TaskDto expectedTask = new TaskDto();
+        expectedTask.setDescription(description);
+        expectedTask.setTitle(title);
+        expectedTask.setOwner(owner);
+
+        Mockito.when(taskDtoMapper.fromTaskDto(task)).thenReturn(expectedTask);
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+
+        Assertions.assertEquals(expectedTask, this.taskManagerService.getTask(taskId));
+    }
+
+    @Test
+    void getTaskNullTaskId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.getTask(null));
+    }
+
+    @Test
+    void getTaskTaskNotFound() {
+        final int taskId = 1;
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.getTask(taskId));
     }
 }

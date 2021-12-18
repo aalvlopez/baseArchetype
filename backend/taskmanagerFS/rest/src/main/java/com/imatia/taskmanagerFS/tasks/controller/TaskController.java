@@ -36,4 +36,9 @@ public class TaskController implements TaskApi {
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @Override
+    public ResponseEntity<TaskDto> taskDetail(Integer taskId) {
+        return new ResponseEntity<>(this.taskManagerService.getTask(taskId), HttpStatus.OK);
+    }
 }
