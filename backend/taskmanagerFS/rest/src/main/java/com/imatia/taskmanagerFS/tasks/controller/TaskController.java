@@ -49,4 +49,10 @@ public class TaskController implements TaskApi {
     public ResponseEntity<List<TaskDto>> listTasks(@NotNull @Valid Integer page, @NotNull @Valid Integer size) {
         return new ResponseEntity<>(this.taskManagerService.getTasks(page, size), HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Void> updateTaskStatus(Integer taskId) {
+        this.taskManagerService.completeTask(taskId);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }

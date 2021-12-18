@@ -1,6 +1,7 @@
 package com.imatia.taskmanagerFS.model.mapper.input;
 
 import com.imatia.dto.TaskDto;
+import com.imatia.taskmanagerFS.apimodel.entity.task.TaskStatusEnum;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
 import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
 import org.mapstruct.Mapper;
@@ -18,5 +19,9 @@ public abstract class TaskVoMapper {
 
     protected UserVO mapStringToUserVo(String owner) {
         return UserVO.builder().username(owner).build();
+    }
+
+    protected TaskStatusEnum taskStatusEnumFromStatusEnum(TaskDto.StatusEnum status) {
+        return TaskStatusEnum.valueOf(status.name());
     }
 }
