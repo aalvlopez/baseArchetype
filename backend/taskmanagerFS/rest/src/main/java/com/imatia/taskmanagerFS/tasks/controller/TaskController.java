@@ -1,6 +1,9 @@
 package com.imatia.taskmanagerFS.tasks.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,5 +43,10 @@ public class TaskController implements TaskApi {
     @Override
     public ResponseEntity<TaskDto> taskDetail(Integer taskId) {
         return new ResponseEntity<>(this.taskManagerService.getTask(taskId), HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<List<TaskDto>> listTasks(@NotNull @Valid Integer page, @NotNull @Valid Integer size) {
+        return new ResponseEntity<>(this.taskManagerService.getTasks(page, size), HttpStatus.OK);
     }
 }

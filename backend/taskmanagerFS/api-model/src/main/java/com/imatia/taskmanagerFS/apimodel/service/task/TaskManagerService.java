@@ -1,5 +1,7 @@
 package com.imatia.taskmanagerFS.apimodel.service.task;
 
+import java.util.List;
+
 import com.imatia.dto.TaskDto;
 
 /**
@@ -12,4 +14,6 @@ public interface TaskManagerService {
     void deleteTask(Integer taskId);
 
     TaskDto getTask(Integer taskId);
+
+    List<TaskDto> getTasks(Integer page, Integer size);
 }

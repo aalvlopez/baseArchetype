@@ -1,5 +1,8 @@
 package com.imatia.taskmanagerFS.apimodel.entity.task;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -33,6 +36,8 @@ public class TaskVO {
     private Integer id;
     private String title;
     private String description;
+    private OffsetDateTime creationDateTime;
+
     @ManyToOne
     @JoinColumn(name = "username")
     private UserVO owner;
