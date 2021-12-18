@@ -81,7 +81,25 @@ class TaskManagerServiceTest {
 
         Mockito.when(userRepository.findByUsername(owner)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(RuntimeException.class, ()->this.taskManagerService.createTask(task));
+        Assertions.assertThrows(IllegalArgumentException.class, ()->this.taskManagerService.createTask(task));
     }
 
+    @Test
+    void deleteTask(){
+        final int taskId = 1;
+        final TaskVO task = TaskVO.builder().id(taskId).build();
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+        Mockito.doNothing().when(this.taskRepository).delete(Mockito.any());
+        this.taskManagerService.deleteTask(taskId);
+
+        Mockito.verify(this.taskRepository, Mockito.times(taskId)).delete(task);
+    }
+
+    @Test
+    void deleteTaskTaskNotFoud(){
+        final int taskId = 1;
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(IllegalArgumentException.class, ()->this.taskManagerService.deleteTask(taskId));
+    }
 }

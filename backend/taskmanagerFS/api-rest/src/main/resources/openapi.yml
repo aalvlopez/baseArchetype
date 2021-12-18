@@ -74,6 +74,26 @@ paths:
           description: callback successfully processed
         '400':
           description: callback bad request
+  /api/v1/task/{taskId}:
+    delete:
+      summary: Deletes a existing task
+      tags:
+        - "task"
+      operationId: "deleteTask"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '204':
+          description: callback successfully entity deletion
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
 
 components:
   securitySchemes:

@@ -29,4 +29,11 @@ public class TaskController implements TaskApi {
         }
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<Void> deleteTask(Integer taskId) {
+        this.taskManagerService.deleteTask(taskId);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
 }
