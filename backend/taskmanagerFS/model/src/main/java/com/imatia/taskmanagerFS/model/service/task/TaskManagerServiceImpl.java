@@ -22,16 +22,12 @@ import com.imatia.taskmanagerFS.model.mapper.input.TaskVoMapper;
 import com.imatia.taskmanagerFS.model.mapper.output.TaskDtoMapper;
 import com.imatia.taskmanagerFS.model.repository.task.TaskRepository;
 import com.imatia.taskmanagerFS.model.repository.user.UserRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>
  */
 @Service
 public class TaskManagerServiceImpl implements TaskManagerService {
-
-    private static final Logger LOG = LoggerFactory.getLogger(TaskManagerServiceImpl.class);
 
     @Autowired
     private TaskRepository taskRepository;
