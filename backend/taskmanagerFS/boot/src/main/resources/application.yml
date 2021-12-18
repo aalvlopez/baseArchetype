@@ -25,3 +25,13 @@ spring:
 server:
   servlet:
     context-path: /taskmanagerFS
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    disable-swagger-default-url: true
+    url: ${server.servlet.context-path}${springdoc.api-docs.path}
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
