@@ -31,9 +31,13 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+							"node_modules/bulma/css/bulma.min.css",
+							"node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
-            "scripts": []
+            "scripts": [
+							"node_modules/@fortawesome/fontawesome-free/js/all.min.js"
+						]
           },
           "configurations": {
             "production": {
@@ -72,10 +76,12 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "taskmanager-fs:build:production"
+              "browserTarget": "taskmanager-fs:build:production",
+							"proxyConfig": "proxy.conf.json"
             },
             "development": {
-              "browserTarget": "taskmanager-fs:build:development"
+              "browserTarget": "taskmanager-fs:build:development",
+							"proxyConfig": "proxy.conf.json"
             }
           },
           "defaultConfiguration": "development"
