@@ -16,7 +16,7 @@ tags:
 paths:
   /api/v1/greeting:
     get:
-      summary: Returns a greeting.
+      description: Returns a greeting.
       tags:
         - "greeting"
       operationId: "greeting"
@@ -37,7 +37,7 @@ paths:
         - basicAuth: []
   /api/v1/login:
     post:
-      summary: Perform login operation.
+      description: Perform login operation.
       tags:
         - "user"
       operationId: "login"
@@ -57,7 +57,7 @@ paths:
         - basicAuth: []
   /api/v1/task:
     post:
-      summary: Creates a new task
+      description: Creates a new task
       tags:
         - "task"
       operationId: "createTask"
@@ -74,9 +74,38 @@ paths:
           description: callback successfully processed
         '400':
           description: callback bad request
+    get:
+      description: Get a task list
+      tags:
+        - "task"
+      operationId: "listTasks"
+      parameters:
+        - name: "page"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 0
+        - name: "size"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 5
+      responses:
+        '200':
+          description: callback successfully entity retrieve
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        '400':
+          description: callback bad request
   /api/v1/task/{taskId}:
     delete:
-      summary: Deletes a existing task
+      description: Deletes a existing task
       tags:
         - "task"
       operationId: "deleteTask"
@@ -95,7 +124,7 @@ paths:
         '404':
           description: Task not found
     get:
-      summary: Get the task detail
+      description: Get the task detail
       tags:
         - "task"
       operationId: "taskDetail"

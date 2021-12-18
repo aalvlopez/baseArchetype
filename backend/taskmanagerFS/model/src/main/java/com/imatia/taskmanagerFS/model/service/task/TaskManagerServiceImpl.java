@@ -1,9 +1,15 @@
 package com.imatia.taskmanagerFS.model.service.task;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -63,6 +69,15 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         Assert.isTrue(taskOpt.isPresent(), "The task does not exist");
 
         return this.taskDtoMapper.fromTaskDto(taskOpt.get());
+    }
+
+    public List<TaskDto> getTasks(Integer page, Integer size){
+        Assert.notNull(page, "The limit must not be null");
+        Assert.notNull(size, "The offset must not be null");
+
+        final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size));
+
+        return this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList()));
     }
 
 
