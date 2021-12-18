@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 
 import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -24,6 +25,7 @@ import org.apache.catalina.User;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
+@Builder
 public class TaskVO {
 
     @Id

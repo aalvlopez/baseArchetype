@@ -8,4 +8,6 @@ import com.imatia.dto.TaskDto;
 public interface TaskManagerService {
 
     TaskDto createTask(TaskDto task);
+
+    void deleteTask(Integer taskId);
 }

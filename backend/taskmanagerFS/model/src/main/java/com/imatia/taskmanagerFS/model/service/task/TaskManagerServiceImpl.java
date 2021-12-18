@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import com.imatia.dto.TaskDto;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
@@ -39,14 +40,22 @@ public class TaskManagerServiceImpl implements TaskManagerService {
 
     @Override
     public TaskDto createTask(TaskDto task) {
-        final Optional<UserVO> byUsername = this.userRepository.findByUsername(task.getOwner());
-        byUsername.orElseThrow(() -> new RuntimeException("The user does not exist"));
+        Assert.isTrue(this.userRepository.findByUsername(task.getOwner()).isPresent(),"The user does not exist");
 
         final TaskVO taskVO = this.taskVOMapper.fromTaskDto(task);
-        LOG.info("TASK {}", taskVO);
         final TaskVO savedTask = this.taskRepository.save(taskVO);
-        LOG.info("SAVED TASK {}", savedTask);
 
         return this.taskDtoMapper.fromTaskDto(savedTask);
     }
+
+    @Override
+    public void deleteTask(Integer taskId) {
+        Assert.notNull(taskId, "The id must not be null");
+        final Optional<TaskVO> taskopt = this.taskRepository.findById(taskId);
+        Assert.isTrue(taskopt.isPresent(), "The task does not exist");
+
+        this.taskRepository.delete(taskopt.get());
+    }
+
+
 }
