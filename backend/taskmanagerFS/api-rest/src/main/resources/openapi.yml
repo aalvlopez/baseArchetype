@@ -166,6 +166,8 @@ components:
       description: "Task information"
       type: "object"
       properties:
+        id:
+          type: "integer"
         title:
           type: "string"
         description:
@@ -173,6 +175,10 @@ components:
         owner:
           description: "the user creator of the task"
           type: "string"
+        creationDateTime:
+          type: "string"
+          format: "date-time"
+
 
 security:
   - basicAuth: []

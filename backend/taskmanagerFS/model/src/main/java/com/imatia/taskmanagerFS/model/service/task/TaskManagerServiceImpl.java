@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -75,10 +76,9 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         Assert.notNull(page, "The limit must not be null");
         Assert.notNull(size, "The offset must not be null");
 
-        final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size));
+        final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size).withSort(Sort.by("creationDateTime").descending()));
 
         return this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList()));
     }
-
 
 }
