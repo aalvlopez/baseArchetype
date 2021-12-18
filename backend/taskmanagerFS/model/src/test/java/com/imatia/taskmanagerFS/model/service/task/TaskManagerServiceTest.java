@@ -9,8 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.imatia.dto.TaskDto;
+import com.imatia.taskmanagerFS.apimodel.entity.task.TaskStatusEnum;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
 import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
+import com.imatia.taskmanagerFS.apimodel.exception.EntityNotFoundException;
 import com.imatia.taskmanagerFS.model.mapper.input.TaskVoMapper;
 import com.imatia.taskmanagerFS.model.mapper.output.TaskDtoMapper;
 import com.imatia.taskmanagerFS.model.repository.task.TaskRepository;
@@ -80,7 +82,7 @@ class TaskManagerServiceTest {
 
         Mockito.when(userRepository.findByUsername(owner)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.createTask(task));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> this.taskManagerService.createTask(task));
     }
 
     @Test
@@ -104,7 +106,7 @@ class TaskManagerServiceTest {
         final int taskId = 1;
         Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.deleteTask(taskId));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> this.taskManagerService.deleteTask(taskId));
     }
 
     @Test
@@ -144,6 +146,32 @@ class TaskManagerServiceTest {
         final int taskId = 1;
         Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
 
-        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.getTask(taskId));
+        Assertions.assertThrows(EntityNotFoundException.class, () -> this.taskManagerService.getTask(taskId));
+    }
+
+    @Test
+    void completeTask(){
+        final int taskId = 1;
+        final TaskVO task = TaskVO.builder().id(taskId).status(TaskStatusEnum.PENDING).build();
+        final TaskVO expectedTask = TaskVO.builder().id(taskId).status(TaskStatusEnum.COMPLETE).build();
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.of(task));
+        Mockito.when(this.taskRepository.save(expectedTask)).thenReturn(expectedTask);
+
+        this.taskManagerService.completeTask(taskId);
+
+        Mockito.verify(this.taskRepository, Mockito.times(1)).save(expectedTask);
+    }
+
+    @Test
+    void completeTaskNullTaskId() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> this.taskManagerService.completeTask(null));
+    }
+
+    @Test
+    void completeTaskTaskNotFound() {
+        final int taskId = 1;
+        Mockito.when(this.taskRepository.findById(taskId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(EntityNotFoundException.class, () -> this.taskManagerService.completeTask(taskId));
     }
 }
