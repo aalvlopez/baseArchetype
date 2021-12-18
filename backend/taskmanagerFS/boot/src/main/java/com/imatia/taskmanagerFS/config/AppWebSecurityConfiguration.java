@@ -1,7 +1,5 @@
 package com.imatia.taskmanagerFS.config;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,9 +12,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>
@@ -46,11 +41,11 @@ public class AppWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS,"/api/**").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
             .antMatchers("/").permitAll()
             .antMatchers("/h2/**").permitAll()
-            .antMatchers(HttpMethod.GET,"/api/**").authenticated()
-            .antMatchers(HttpMethod.POST,"/api/**").authenticated();
+            .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/**").authenticated();
 
         http.cors().disable();
         http.httpBasic();
@@ -58,16 +53,4 @@ public class AppWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
-    @Bean
-    CorsConfigurationSource corsConfigurationSource()
-    {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        return source;
-    }
-
 }

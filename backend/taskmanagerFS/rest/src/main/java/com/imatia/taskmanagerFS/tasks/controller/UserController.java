@@ -3,7 +3,6 @@ package com.imatia.taskmanagerFS.tasks.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.imatia.dto.UserDto;
@@ -13,7 +12,6 @@ import com.imatia.taskmanagerFS.model.service.AuthServiceImpl;
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>
  */
-@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 public class UserController implements UserApi {
 

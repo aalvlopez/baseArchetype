@@ -76,12 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "taskmanager-fs:build:production",
-							"proxyConfig": "proxy.conf.json"
+              "browserTarget": "taskmanager-fs:build:production"
             },
             "development": {
-              "browserTarget": "taskmanager-fs:build:development",
-							"proxyConfig": "proxy.conf.json"
+              "browserTarget": "taskmanager-fs:build:development"
             }
           },
           "defaultConfiguration": "development"
