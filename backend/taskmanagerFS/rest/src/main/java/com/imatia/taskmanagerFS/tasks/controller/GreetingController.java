@@ -1,5 +1,7 @@
 package com.imatia.taskmanagerFS.tasks.controller;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,8 +17,7 @@ public class GreetingController implements GreetingApi {
 
     @Override
     @PreAuthorize("hasRole('ROLE_USER')")
-    public ResponseEntity<String> greeting(String name) {
+    public ResponseEntity<String> greeting(@Valid String name) {
         return new ResponseEntity<>(String.format(template, name), HttpStatus.OK);
-
     }
 }

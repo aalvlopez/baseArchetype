@@ -3,6 +3,7 @@ package com.imatia.taskmanagerFS.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,14 +13,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import com.imatia.taskmanagerFS.apimodel.entity.RoleVO;
-
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>
  */
 @Configuration
 @EnableWebSecurity
-public class AppConfiguration extends WebSecurityConfigurerAdapter {
+public class AppWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -42,14 +41,16 @@ public class AppConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
             .antMatchers("/").permitAll()
             .antMatchers("/h2/**").permitAll()
-            .antMatchers("/api/**").authenticated();
+            .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/**").authenticated();
 
+        http.cors().disable();
         http.httpBasic();
         http.csrf().disable();
         http.headers().frameOptions().disable();
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
     }
-
 }
