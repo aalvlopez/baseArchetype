@@ -1,4 +1,4 @@
-package com.imatia.taskmanagerFS.model.service;
+package com.imatia.taskmanagerFS.model.service.auth;
 
 import java.util.Base64;
 import java.util.Optional;
@@ -9,10 +9,10 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import com.imatia.dto.UserDto;
-import com.imatia.taskmanagerFS.apimodel.entity.UserVO;
-import com.imatia.taskmanagerFS.apimodel.service.AuthService;
-import com.imatia.taskmanagerFS.model.mapper.UserDtoMapper;
-import com.imatia.taskmanagerFS.model.repository.UserRepository;
+import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
+import com.imatia.taskmanagerFS.apimodel.service.auth.AuthService;
+import com.imatia.taskmanagerFS.model.mapper.output.UserDtoMapper;
+import com.imatia.taskmanagerFS.model.repository.user.UserRepository;
 
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>

@@ -11,6 +11,8 @@ tags:
     description: "Greeting endpoints"
   - name: "user"
     description: "user management endpoints"
+  - name: "task"
+    description: "task management endpoints"
 paths:
   /api/v1/greeting:
     get:
@@ -53,6 +55,26 @@ paths:
                 $ref: "#/components/schemas/User"
       security:
         - basicAuth: []
+  /api/v1/task:
+    post:
+      summary: Creates a new task
+      tags:
+        - "task"
+      operationId: "createTask"
+      requestBody:
+        description: "Task data to insert"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: callback successfully entity creation
+        '200':
+          description: callback successfully processed
+        '400':
+          description: callback bad request
+
 components:
   securitySchemes:
     basicAuth:
@@ -69,7 +91,17 @@ components:
           type: array
           items:
             type: "string"
-
+    Task:
+      description: "Task information"
+      type: "object"
+      properties:
+        title:
+          type: "string"
+        description:
+          type: "string"
+        owner:
+          description: "the user creator of the task"
+          type: "string"
 
 security:
   - basicAuth: []

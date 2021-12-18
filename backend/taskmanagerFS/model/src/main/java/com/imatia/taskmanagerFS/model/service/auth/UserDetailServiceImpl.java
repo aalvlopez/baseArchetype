@@ -1,4 +1,4 @@
-package com.imatia.taskmanagerFS.model.service;
+package com.imatia.taskmanagerFS.model.service.auth;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,10 +17,10 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.imatia.taskmanagerFS.apimodel.entity.RoleVO;
-import com.imatia.taskmanagerFS.apimodel.entity.UserVO;
-import com.imatia.taskmanagerFS.model.repository.RoleRepository;
-import com.imatia.taskmanagerFS.model.repository.UserRepository;
+import com.imatia.taskmanagerFS.apimodel.entity.user.RoleVO;
+import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
+import com.imatia.taskmanagerFS.model.repository.user.RoleRepository;
+import com.imatia.taskmanagerFS.model.repository.user.UserRepository;
 
 /**
  * @author <a href="changeme@ext.inditex.com">aalvarez</a>

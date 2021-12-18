@@ -1,4 +1,4 @@
-package com.imatia.taskmanagerFS.apimodel.service;
+package com.imatia.taskmanagerFS.apimodel.service.auth;
 
 import com.imatia.dto.UserDto;
 
