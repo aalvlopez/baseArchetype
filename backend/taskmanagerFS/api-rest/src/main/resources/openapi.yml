@@ -1,0 +1,210 @@
+openapi: 3.0.3
+info:
+  title: Task Manager API
+  description: Api for the task manager toool.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+tags:
+  - name: "greeting"
+    description: "Greeting endpoints"
+  - name: "user"
+    description: "user management endpoints"
+  - name: "task"
+    description: "task management endpoints"
+paths:
+  /api/v1/greeting:
+    get:
+      description: Returns a greeting.
+      tags:
+        - "greeting"
+      operationId: "greeting"
+      parameters:
+        - name: "name"
+          in: "query"
+          schema:
+            type: "string"
+            default: "stranger"
+      responses:
+        '200':
+          description: Greeting content
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - basicAuth: []
+  /api/v1/login:
+    post:
+      description: Perform login operation.
+      tags:
+        - "user"
+      operationId: "login"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - basicAuth: []
+  /api/v1/task:
+    post:
+      description: Creates a new task
+      tags:
+        - "task"
+      operationId: "createTask"
+      requestBody:
+        description: "Task data to insert"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: callback successfully entity creation
+        '200':
+          description: callback successfully processed
+        '400':
+          description: callback bad request
+    get:
+      description: Get a task list
+      tags:
+        - "task"
+      operationId: "listTasks"
+      parameters:
+        - name: "page"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 0
+        - name: "size"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 5
+      responses:
+        '200':
+          description: callback successfully entity retrieve
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        '400':
+          description: callback bad request
+  /api/v1/task/{taskId}:
+    delete:
+      description: Deletes a existing task
+      tags:
+        - "task"
+      operationId: "deleteTask"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '204':
+          description: callback successfully entity deletion
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+    get:
+      description: Get the task detail
+      tags:
+        - "task"
+      operationId: "taskDetail"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '200':
+          description: callback successfully entity retrieve
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+  /api/v1/task/{taskId}/status:
+    put:
+      description: Deletes a existing task
+      tags:
+        - "task"
+      operationId: "updateTaskStatus"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '204':
+          description: callback successfully entity deletion
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    User:
+      description: "User information"
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        roles:
+          type: array
+          items:
+            type: "string"
+    Task:
+      description: "Task information"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        owner:
+          description: "the user creator of the task"
+          type: "string"
+        creationDateTime:
+          type: "string"
+          format: "date-time"
+        status:
+          type: "string"
+          enum:
+            - "PENDING"
+            - "COMPLETE"
+          default: "PENDING"
+
+security:
+  - basicAuth: []

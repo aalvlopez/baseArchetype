@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Task Manager API
+  description: Api for the task manager toool.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/taskmanagerFS/
+    description: Local server
+tags:
+  - name: "greeting"
+    description: "Greeting endpoints"
+  - name: "user"
+    description: "user management endpoints"
+paths:
+  /api/v1/greeting:
+    get:
+      summary: Returns a greeting.
+      tags:
+        - "greeting"
+      operationId: "greeting"
+      parameters:
+        - name: "name"
+          in: "query"
+          schema:
+            type: "string"
+            default: "stranger"
+      responses:
+        '200':
+          description: Greeting content
+          content:
+            application/json:
+              schema:
+                type: string
+      security:
+        - basicAuth: []
+  /api/v1/login:
+    post:
+      summary: Perform login operation.
+      tags:
+        - "user"
+      operationId: "login"
+      parameters:
+        - name: "Authorization"
+          in: "header"
+          schema:
+            type: "string"
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+      security:
+        - basicAuth: []
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    User:
+      description: "User information"
+      type: "object"
+      properties:
+        username:
+          type: "string"
+        roles:
+          type: array
+          items:
+            type: "string"
+
+
+security:
+  - basicAuth: []
