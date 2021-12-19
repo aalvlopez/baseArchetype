@@ -10,13 +10,15 @@ import { ApiModule } from './core/api/v1/api.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { TaskListComponent } from './task-list/task-list.component';
 
-import { CustomHttpInterceptor } from './custom-http.interceptor'
+import { CustomHttpInterceptor } from './custom-http.interceptor';
+import { TopBarComponent } from './top-bar/top-bar.component'
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    TaskListComponent
+    TaskListComponent,
+    TopBarComponent
   ],
   imports: [
 		ApiModule,

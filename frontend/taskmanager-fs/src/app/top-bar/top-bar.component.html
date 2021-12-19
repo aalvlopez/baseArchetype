@@ -1,0 +1,28 @@
+<nav class="navbar has-background-info" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+		<span class="navbar-item">
+			<h1 class="title is-align-self-center has-text-light"> Task Manager </h1>
+		</span>
+
+    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-end">
+      <div class="navbar-item">
+        <div class="buttons">
+          <a class="button is-success">
+            <strong>Add task</strong>
+          </a>
+          <a class="button is-light" (click)="logout()">
+            Log out
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
