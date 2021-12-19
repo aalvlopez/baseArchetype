@@ -41,11 +41,12 @@ public class AppWebSecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-            .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
-            .antMatchers("/").permitAll()
+            .antMatchers(HttpMethod.OPTIONS, "/api/**/login").permitAll()
             .antMatchers("/h2/**").permitAll()
-            .antMatchers(HttpMethod.GET, "/api/**").permitAll() //.authenticated()
-            .antMatchers(HttpMethod.POST, "/api/**").permitAll(); //.authenticated();
+            .antMatchers(HttpMethod.GET, "/api/**").authenticated()
+            .antMatchers(HttpMethod.POST, "/api/**").authenticated()
+            .antMatchers(HttpMethod.PUT, "/api/**").authenticated()
+            .antMatchers(HttpMethod.DELETE, "/api/**").authenticated();
 
         http.cors().disable();
         http.httpBasic();
