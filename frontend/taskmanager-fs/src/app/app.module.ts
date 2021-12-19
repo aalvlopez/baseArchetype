@@ -13,6 +13,8 @@ import { TaskListComponent } from './task-list/task-list.component';
 import { CustomHttpInterceptor } from './custom-http.interceptor';
 import { TopBarComponent } from './top-bar/top-bar.component'
 
+import { ReloadTasksService } from './reload-tasks.service';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -31,7 +33,7 @@ import { TopBarComponent } from './top-bar/top-bar.component'
       provide : HTTP_INTERCEPTORS,
       useClass: CustomHttpInterceptor,
       multi   : true,
-    }],
+    },ReloadTasksService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
