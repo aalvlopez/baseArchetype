@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskService } from '../core/api/v1/api/task.service';
 import { Task } from '../core/api/v1/model/task';
+import { ReloadTasksService } from '../reload-tasks.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-task-list',
@@ -9,14 +11,17 @@ import { Task } from '../core/api/v1/model/task';
 })
 export class TaskListComponent implements OnInit {
 	tasks: Task[] = [];
+	subscription: Subscription;
 
-  constructor(private readonly taskService: TaskService) { }
+  constructor(private readonly taskService: TaskService, private reloadTasksService: ReloadTasksService) {
+		this.subscription = reloadTasksService.reloadAnnounced$.subscribe(
+      event => {
+        this.getTasks();
+    });
+	}
 
   ngOnInit(): void {
 		this.getTasks();
-		let autHeader:string|null = localStorage.getItem('autHeader');
-		if(autHeader!=null)
-			this.taskService.defaultHeaders.set('Athorization', autHeader);
   }
 
 	getTasks(): void {
@@ -42,5 +47,9 @@ export class TaskListComponent implements OnInit {
 			this.getTasks();
 		});
 	}
+
+	ngOnDestroy() {
+    this.subscription.unsubscribe();
+  }
 
 }
