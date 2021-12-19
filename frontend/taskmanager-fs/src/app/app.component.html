@@ -1,3 +1,4 @@
+<app-top-bar *ngIf="!checkLogin()"></app-top-bar>
 <section class="section">
 	<app-login *ngIf="checkLogin()"></app-login>
 	<app-task-list *ngIf="!checkLogin()"></app-task-list>
