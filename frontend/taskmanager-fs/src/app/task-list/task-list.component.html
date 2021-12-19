@@ -1,0 +1,24 @@
+<div class="columns is-multiline">
+	<div *ngFor="let task of tasks" class="column is-one-fifth">
+		<div class="card">
+		  <header class="card-header">
+		    <p class="card-header-title" [ngStyle]="{'text-decoration':(task.status=='COMPLETE')? 'line-through':'none'}">
+		    	#{{ task.id }} - {{ task.title }}
+		    </p>
+		    <button class="card-header-icon" aria-label="more options">
+					<span class="icon" (click)="completeTask(task)">
+						<i class="fas fa-check has-text-primary"></i>
+					</span>
+					<span class="icon has-text-danger" (click)="deleteTask(task)">
+						<i class="fas fa-trash" aria-hidden="true"></i>
+					</span>
+		    </button>
+		  </header>
+		  <div class="card-content">
+		    <div class="content">
+		      	{{ task.description }}
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>

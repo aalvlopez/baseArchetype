@@ -4,17 +4,19 @@ info:
   description: Api for the task manager toool.
   version: 1.0.0
 servers:
-  - url: http://localhost:8080/taskmanagerFS/
+  - url: http://localhost:8080/taskmanagerFS
     description: Local server
 tags:
   - name: "greeting"
     description: "Greeting endpoints"
   - name: "user"
     description: "user management endpoints"
+  - name: "task"
+    description: "task management endpoints"
 paths:
   /api/v1/greeting:
     get:
-      summary: Returns a greeting.
+      description: Returns a greeting.
       tags:
         - "greeting"
       operationId: "greeting"
@@ -35,7 +37,7 @@ paths:
         - basicAuth: []
   /api/v1/login:
     post:
-      summary: Perform login operation.
+      description: Perform login operation.
       tags:
         - "user"
       operationId: "login"
@@ -53,6 +55,120 @@ paths:
                 $ref: "#/components/schemas/User"
       security:
         - basicAuth: []
+  /api/v1/task:
+    post:
+      description: Creates a new task
+      tags:
+        - "task"
+      operationId: "createTask"
+      requestBody:
+        description: "Task data to insert"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Task"
+      responses:
+        '201':
+          description: callback successfully entity creation
+        '200':
+          description: callback successfully processed
+        '404':
+          description: resource not found
+        '400':
+          description: callback bad request
+    get:
+      description: Get a task list
+      tags:
+        - "task"
+      operationId: "listTasks"
+      parameters:
+        - name: "page"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 0
+        - name: "size"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+            default: 5
+      responses:
+        '200':
+          description: callback successfully entity retrieve
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Task"
+        '400':
+          description: callback bad request
+  /api/v1/task/{taskId}:
+    delete:
+      description: Deletes a existing task
+      tags:
+        - "task"
+      operationId: "deleteTask"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '204':
+          description: callback successfully entity deletion
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+    get:
+      description: Get the task detail
+      tags:
+        - "task"
+      operationId: "taskDetail"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '200':
+          description: callback successfully entity retrieve
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+  /api/v1/task/{taskId}/status:
+    put:
+      description: Deletes a existing task
+      tags:
+        - "task"
+      operationId: "updateTaskStatus"
+      parameters:
+        - name: "taskId"
+          in: "path"
+          description: ID of a existing task
+          required: true
+          schema:
+            type: "integer"
+      responses:
+        '204':
+          description: callback successfully entity deletion
+        '400':
+          description: callback bad request
+        '404':
+          description: Task not found
+
 components:
   securitySchemes:
     basicAuth:
@@ -69,7 +185,28 @@ components:
           type: array
           items:
             type: "string"
-
+    Task:
+      description: "Task information"
+      type: "object"
+      properties:
+        id:
+          type: "integer"
+        title:
+          type: "string"
+        description:
+          type: "string"
+        owner:
+          description: "the user creator of the task"
+          type: "string"
+        creationDateTime:
+          type: "string"
+          format: "date-time"
+        status:
+          type: "string"
+          enum:
+            - "PENDING"
+            - "COMPLETE"
+          default: "PENDING"
 
 security:
   - basicAuth: []

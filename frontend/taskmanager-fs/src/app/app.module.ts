@@ -7,12 +7,16 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { ApiModule } from './core/api/v1/api.module';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { TaskListComponent } from './task-list/task-list.component';
+
+import { CustomHttpInterceptor } from './custom-http.interceptor'
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    TaskListComponent
   ],
   imports: [
 		ApiModule,
@@ -21,7 +25,11 @@ import { HttpClientModule } from '@angular/common/http';
     AppRoutingModule,
 		FormsModule
   ],
-  providers: [],
+  providers: [{
+      provide : HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
+      multi   : true,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
