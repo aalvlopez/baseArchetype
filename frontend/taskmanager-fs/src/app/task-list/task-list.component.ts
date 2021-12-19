@@ -14,6 +14,9 @@ export class TaskListComponent implements OnInit {
 
   ngOnInit(): void {
 		this.getTasks();
+		let autHeader:string|null = localStorage.getItem('autHeader');
+		if(autHeader!=null)
+			this.taskService.defaultHeaders.set('Athorization', autHeader);
   }
 
 	getTasks(): void {
@@ -31,6 +34,9 @@ export class TaskListComponent implements OnInit {
 	}
 
 	completeTask(	task: Task): void {
+		let autHeader:string|null = localStorage.getItem('autHeader');
+		if(autHeader!=null)
+			this.taskService.defaultHeaders.set('Athorization', autHeader);
 		let observable = this.taskService.updateTaskStatus(task.id!);
 		observable.subscribe(() =>{
 			this.getTasks();
