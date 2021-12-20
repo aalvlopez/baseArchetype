@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import com.imatia.dto.TaskDto;
+import com.imatia.dto.TaskListDto;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskStatusEnum;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
 import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
@@ -59,14 +60,19 @@ public class TaskManagerServiceImpl implements TaskManagerService {
         return this.taskDtoMapper.fromTaskDto(getTaskVO(taskId));
     }
 
-    public List<TaskDto> getTasks(Integer page, Integer size) {
+    public TaskListDto getTasks(Integer page, Integer size) {
         Assert.notNull(page, "The limit must not be null");
         Assert.notNull(size, "The offset must not be null");
 
         final Page<TaskVO> all = this.taskRepository.findAll(PageRequest.of(page, size).withSort(Sort.by(
             Sort.Order.desc("creationDateTime"),
             Sort.Order.desc("id"))));
-        return this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList()));
+        TaskListDto result = new TaskListDto();
+
+        result.setTasks( this.taskDtoMapper.fromTaskDto(all.get().collect(Collectors.toList())));
+        result.setCount(this.taskRepository.countTasks());
+
+        return result;
     }
 
     @Override

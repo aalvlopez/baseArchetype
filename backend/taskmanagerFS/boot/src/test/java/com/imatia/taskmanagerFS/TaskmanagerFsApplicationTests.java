@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +34,7 @@ import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.imatia.dto.TaskDto;
 import com.imatia.dto.TaskDto.StatusEnum;
+import com.imatia.dto.TaskListDto;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskStatusEnum;
 import com.imatia.taskmanagerFS.apimodel.entity.task.TaskVO;
 import com.imatia.taskmanagerFS.apimodel.entity.user.UserVO;
@@ -117,6 +119,7 @@ class TaskmanagerFsApplicationTests {
         String request = "{\"title\": \"" + title + "\", \"description\": \"" + description + "\", \"owner\": \"" + ownerUser + "\", \"creationDateTime\": \"" + s + "\"}";
 
         final ResultActions resultActions = this.mockMvc.perform(post("/api/v1/task")
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .content(request)
             .contentType(MediaType.APPLICATION_JSON_VALUE));
         resultActions
@@ -142,6 +145,7 @@ class TaskmanagerFsApplicationTests {
         final String url = "/api/v1/task/{taskId}";
 
         final ResultActions result = this.mockMvc.perform(get(url, savedTask.getId())
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(savedTask.getId()).toString()));
 
         result.andDo(print())
@@ -163,6 +167,7 @@ class TaskmanagerFsApplicationTests {
         final String url = "/api/v1/task/{taskId}";
 
         final ResultActions result = this.mockMvc.perform(get(url, 1)
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(1).toString()));
 
         result.andDo(print())
@@ -178,6 +183,7 @@ class TaskmanagerFsApplicationTests {
         final TaskVO savedTask = createExampleTask();
 
         final ResultActions result = this.mockMvc.perform(delete(url, savedTask.getId())
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(savedTask.getId()).toString()));
         result.andDo(print())
             .andExpect(status().isNoContent())
@@ -192,6 +198,7 @@ class TaskmanagerFsApplicationTests {
         final String url = "/api/v1/task/{taskId}";
 
         final ResultActions result = this.mockMvc.perform(delete(url, 1)
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(1).toString()));
         result.andDo(print())
             .andExpect(status().isNotFound())
@@ -214,6 +221,7 @@ class TaskmanagerFsApplicationTests {
             .subList(page * pageSize, page * pageSize + pageSize);
 
         final ResultActions result = this.mockMvc.perform(get(url)
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(url)
             .param("page", page.toString())
             .param("size", pageSize.toString()));
@@ -224,11 +232,12 @@ class TaskmanagerFsApplicationTests {
 
         String strResponse = result.andReturn().getResponse().getContentAsString();
 
-        final List<TaskDto> obtainedTaskDtos = Arrays.asList(objectMapper.readValue(strResponse, TaskDto[].class));
+        final TaskListDto obtainedTaskDtos = objectMapper.readValue(strResponse, TaskListDto.class);
 
-        Assertions.assertEquals(expectedTasks.size(), obtainedTaskDtos.size());
+        Assertions.assertEquals(expectedTasks.size(), obtainedTaskDtos.getTasks().size());
+        Assertions.assertEquals(insertedTasks.size(), obtainedTaskDtos.getCount());
         final List<Integer> expectedIds = expectedTasks.stream().map(TaskVO::getId).collect(Collectors.toList());
-        final List<Integer> obtainedIds = obtainedTaskDtos.stream().map(TaskDto::getId).collect(Collectors.toList());
+        final List<Integer> obtainedIds = obtainedTaskDtos.getTasks().stream().map(TaskDto::getId).collect(Collectors.toList());
         Assertions.assertTrue(expectedIds.containsAll(obtainedIds) && obtainedIds.containsAll(expectedIds));
 
     }
@@ -240,6 +249,7 @@ class TaskmanagerFsApplicationTests {
         final String url = "/api/v1/task/{taskId}/status";
 
         final ResultActions result = this.mockMvc.perform(put(url, exampleTask.getId())
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(exampleTask.getId()).toString()));
         result.andDo(print())
             .andExpect(status().isNoContent())
@@ -256,6 +266,7 @@ class TaskmanagerFsApplicationTests {
         final String url = "/api/v1/task/{taskId}/status";
 
         final ResultActions result = this.mockMvc.perform(put(url, 1)
+            .header("Authorization","Basic "+ Base64.getEncoder().encodeToString("user:pass".getBytes()))
             .servletPath(UriComponentsBuilder.fromUriString(url).build(1).toString()));
         result.andDo(print())
             .andExpect(status().isNotFound())

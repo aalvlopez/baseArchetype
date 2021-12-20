@@ -22,3 +22,27 @@
 		</div>
 	</div>
 </div>
+
+<nav class="pagination is-centered" role="navigation" aria-label="pagination">
+	<div class="select" >
+	  <select [(ngModel)]="pageSize" (change)="doSomething(1)">
+	    <option>5</option>
+	    <option>10</option>
+	    <option>15</option>
+	    <option>20</option>
+	  </select>
+	</div>
+  <a class="pagination-previous" *ngIf="numPages>4&&currentPage>1" (click)="doSomething(currentPage-1)">Previous</a>
+  <a class="pagination-next" *ngIf="numPages>4&&currentPage<numPages" (click)="doSomething(currentPage+1)">Next page</a>
+  <ul class="pagination-list" *ngIf="numPages>1">
+    <li><a class="pagination-link " (click)="doSomething(1)" [ngClass]="{'is-current':currentPage==1}">1</a></li>
+    <li><span class="pagination-ellipsis" *ngIf="numPages>=5 && currentPage>3">&hellip;</span></li>
+		<li><a class="pagination-link" (click)="doSomething(currentPage-2)" *ngIf="currentPage==numPages&&numPages>3">{{ currentPage-2 }}</a></li>
+    <li><a class="pagination-link" (click)="doSomething(currentPage-1)" *ngIf="currentPage>2 || (currentPage>2 && currentPage<numPages)">{{ currentPage-1 }}</a></li>
+    <li><a class="pagination-link" [ngClass]="{'is-current':(currentPage<numPages||numPages<5)&&currentPage>1 }" (click)="doSomething(currentPage)" *ngIf="(currentPage<numPages)&&currentPage>1">{{ currentPage }}</a></li>
+    <li><a class="pagination-link" (click)="doSomething(currentPage+1)" *ngIf="(currentPage<=2 || (currentPage+1<numPages)) && currentPage+1<numPages">{{ currentPage+1 }}</a></li>
+    <li><a class="pagination-link" (click)="doSomething(currentPage+2)" *ngIf="currentPage==1 && currentPage+2<numPages">{{ currentPage+2 }}</a></li>
+    <li><span class="pagination-ellipsis"  *ngIf="(currentPage<numPages-3 ||currentPage<numPages-2) && numPages>=5">&hellip;</span></li>
+    <li><a class="pagination-link" [ngClass]="{'is-current':currentPage==numPages}" (click)="doSomething(numPages)" *ngIf="numPages>1&&currentPage<=numPages">{{ numPages }}</a></li>
+  </ul>
+</nav>
