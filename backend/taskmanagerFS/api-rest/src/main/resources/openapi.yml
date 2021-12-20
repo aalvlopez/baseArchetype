@@ -100,9 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/Task"
+                $ref: "#/components/schemas/TaskList"
         '400':
           description: callback bad request
   /api/v1/task/{taskId}:
@@ -207,6 +205,15 @@ components:
             - "PENDING"
             - "COMPLETE"
           default: "PENDING"
+    TaskList:
+      type: object
+      properties:
+        count:
+          type: integer
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/Task"
 
 security:
   - basicAuth: []

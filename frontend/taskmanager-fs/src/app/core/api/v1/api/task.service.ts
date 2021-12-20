@@ -19,6 +19,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 import { Task } from '../model/models';
+import { TaskList } from '../model/models';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -213,9 +214,9 @@ export class TaskService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public listTasks(page: number, size: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<Array<Task>>;
-    public listTasks(page: number, size: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<Array<Task>>>;
-    public listTasks(page: number, size: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<Array<Task>>>;
+    public listTasks(page: number, size: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<TaskList>;
+    public listTasks(page: number, size: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpResponse<TaskList>>;
+    public listTasks(page: number, size: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<HttpEvent<TaskList>>;
     public listTasks(page: number, size: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'application/json', context?: HttpContext}): Observable<any> {
         if (page === null || page === undefined) {
             throw new Error('Required parameter page was null or undefined when calling listTasks.');
@@ -266,7 +267,7 @@ export class TaskService {
             responseType_ = 'text';
         }
 
-        return this.httpClient.get<Array<Task>>(`${this.configuration.basePath}/api/v1/task`,
+        return this.httpClient.get<TaskList>(`${this.configuration.basePath}/api/v1/task`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

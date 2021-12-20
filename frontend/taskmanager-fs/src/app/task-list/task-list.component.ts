@@ -10,8 +10,12 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./task-list.component.scss']
 })
 export class TaskListComponent implements OnInit {
-	tasks: Task[] = [];
+	tasks:  Array<Task> = [];
+	taskCount: number = 0;
 	subscription: Subscription;
+	pageSize: number = 5;
+	currentPage: number = 1;
+	numPages: number = 0;
 
   constructor(private readonly taskService: TaskService, private reloadTasksService: ReloadTasksService) {
 		this.subscription = reloadTasksService.reloadAnnounced$.subscribe(
@@ -25,9 +29,15 @@ export class TaskListComponent implements OnInit {
   }
 
 	getTasks(): void {
-		let observable = this.taskService.listTasks(0,10);
-		observable.subscribe(tasks =>{
-			this.tasks = tasks;
+		let observable = this.taskService.listTasks(this.currentPage-1, this.pageSize);
+		observable.subscribe(tasklist =>{
+			console.log(tasklist);
+			if(tasklist.tasks != undefined)
+				this.tasks = tasklist.tasks;
+			if(tasklist.count != undefined){
+				this.taskCount = tasklist.count;
+				this.numPages = Math.ceil(this.taskCount/this.pageSize);
+			}
 		});
 	}
 
@@ -39,9 +49,6 @@ export class TaskListComponent implements OnInit {
 	}
 
 	completeTask(	task: Task): void {
-		let autHeader:string|null = localStorage.getItem('autHeader');
-		if(autHeader!=null)
-			this.taskService.defaultHeaders.set('Athorization', autHeader);
 		let observable = this.taskService.updateTaskStatus(task.id!);
 		observable.subscribe(() =>{
 			this.getTasks();
@@ -51,5 +58,10 @@ export class TaskListComponent implements OnInit {
 	ngOnDestroy() {
     this.subscription.unsubscribe();
   }
+
+	doSomething(event: number){
+		this.currentPage = event;
+		this.getTasks();
+	}
 
 }
